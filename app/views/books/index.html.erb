@@ -1,18 +1,18 @@
-<h1>New book</h1>
+<% if @book_new.errors.any? %>
+  <%= @book_new.errors.count %>件のエラーが発生しました
+  <ul>
+    <% @book_new.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
 
-  <%= form_with model: @book do |f| %>
-
-    <h4>Title</h4>
-      <%= f.text_field :title %>
-    <h4>Opinion</h4>
-      <%= f.text_area :body %>
-    <%= f.submit '投稿' %>
-  <% end %>
+<%= render 'new', book: @book_new %>
 
  <% @book_all.each do |book| %>
   <div>
     <%= link_to book_path(book.id) do %>
-    <p>投稿ユーザー画像：<%= image_tag 'sample-author1.jpg' %></p>
+    <p>投稿ユーザー画像：<%= image_tag book.user.get_profile_image(100,100) %></p>
     <% end %>
     <p>Title：<%= book.title %></p>
     <p>Opinion：<%= book.body %></p>

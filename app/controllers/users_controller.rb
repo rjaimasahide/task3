@@ -11,12 +11,19 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @book = @user.books
+    @books = @user.books
+    @book_new = Book.new
+  end
+
+  def create
+    render template: "books/create"
   end
 
   def index
+    @book_new = Book.new
+    @users = User.all
   end
-  
+
   private
 
   def user_params

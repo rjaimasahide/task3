@@ -1,2 +1,16 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<%= render 'books/new', book: @book_new %>
+
+<div>
+  <%= current_user.name %>
+  <%= current_user.introduction %>
+  <%= image_tag current_user.get_profile_image(100,100) %>
+  <%= link_to "ユーザー編集", edit_user_path(current_user.id) %>
+</div>
+
+<% @users.each do |user| %>
+<div>
+  <%= image_tag user.get_profile_image(100,100) %>
+  <%= user.name %>
+  <%= link_to "show", user_path(user.id) %>
+<% end %>
+</div>
