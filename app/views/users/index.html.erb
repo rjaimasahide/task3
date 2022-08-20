@@ -1,10 +1,11 @@
+
 <%= render 'books/new', book: @book_new %>
+<%= link_to "ユーザー編集", edit_user_path(current_user.id) %>
 
 <div>
   <%= current_user.name %>
   <%= current_user.introduction %>
   <%= image_tag current_user.get_profile_image(100,100) %>
-  <%= link_to "ユーザー編集", edit_user_path(current_user.id) %>
 </div>
 
 <% @users.each do |user| %>

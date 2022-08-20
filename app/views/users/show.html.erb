@@ -1,8 +1,21 @@
+<% if flash[:notice] %>
+  <p id="notice">
+    <%= flash[:notice] %>
+  </p>
+<% end %>
+
 <%= render 'books/new', book: @book_new %>
 
+<% if @user == current_user %>
+  <%= link_to "ユーザー情報編集", edit_user_path(current_user.id) %>
+<% else %>
+  <%= link_to "ユーザー情報編集", user_path(current_user.id) %>
+<% end %>
+
+
 <div>
-  <%= @user.name %>
-  <%= @user.introduction %>
+  <p>name:<%= @user.name %></P>
+  <p>introduction:<%= @user.introduction %></p>
   <%= image_tag @user.get_profile_image(100,100) %>
 </div>
 

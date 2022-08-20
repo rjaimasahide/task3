@@ -1,5 +1,5 @@
 <% if @book_new.errors.any? %>
-  <%= @book_new.errors.count %>件のエラーが発生しました
+  <%= @book_new.errors.count %> errors
   <ul>
     <% @book_new.errors.full_messages.each do |message| %>
       <li><%= message %></li>
@@ -7,14 +7,21 @@
   </ul>
 <% end %>
 
+<% if flash[:notice] %>
+  <p id="notice">
+    <%= flash[:notice] %>
+  </p>
+<% end %>
+
 <%= render 'new', book: @book_new %>
+<%= link_to "ユーザー情報編集", edit_user_path(current_user.id) %>
 
  <% @book_all.each do |book| %>
   <div>
-    <%= link_to book_path(book.id) do %>
     <p>投稿ユーザー画像：<%= image_tag book.user.get_profile_image(100,100) %></p>
+    <%= link_to book_path(book.id) do %>
+      <p>Title：<%= book.title %></p>
     <% end %>
-    <p>Title：<%= book.title %></p>
     <p>Opinion：<%= book.body %></p>
     <p>ユーザーネーム：<%= book.user.name %></p>
   </div>
