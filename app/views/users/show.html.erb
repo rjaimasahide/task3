@@ -1,31 +1,51 @@
-<% if flash[:notice] %>
-  <p id="notice">
-    <%= flash[:notice] %>
-  </p>
-<% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
 
-<%= render 'books/new', book: @book_new %>
+      <% if flash[:notice] %>
+        <p id="notice">
+      <%= flash[:notice] %>
+        </p>
+      <% end %>
 
-<% if @user == current_user %>
-  <%= link_to "ユーザー情報編集", edit_user_path(current_user.id) %>
-<% else %>
-  <%= link_to "ユーザー情報編集", user_path(current_user.id) %>
-<% end %>
+      <h1>User inf</h1>
+      <%= image_tag @user.get_profile_image(100,100) %>
+      <table class="table table-hover">
+        <tr><th>name</th><th><%= @user.name %></th></tr>
+        <tr><th>introduction</th><th><%= @user.introduction %></th></tr>
+      </table>
 
+      <% if @user == current_user %>
+        <%= link_to "ユーザー情報編集", edit_user_path(current_user.id), class: "btn btn-secondary" %>
+      <% else %>
+        <%= link_to "ユーザー情報編集", user_path(current_user.id), class: "btn btn-secondary" %>
+      <% end %>
 
-<div>
-  <p>name:<%= @user.name %></P>
-  <p>introduction:<%= @user.introduction %></p>
-  <%= image_tag @user.get_profile_image(100,100) %>
+      <h1>New book</h1>
+      <%= form_with model: @book_new do |f| %>
+        <h4>Title</h4>
+          <%= f.text_field :title %>
+        <h4>Opinion</h4>
+          <%= f.text_area :body %>
+          <%= f.submit '投稿' %>
+      <% end %>
+
+    </div>
+    <div class="col-lg-9">
+      <h1>Books</h1>
+
+      <table class="table table-hover">
+        <tr><th></th><th>Title</th><th>Opinion</th></tr>
+        <% @books.each do |book| %>
+          <tr><td><%= image_tag book.user.get_profile_image(100,100) %></td>
+          <th><%= link_to book_path(book.id) do %>
+          <%= book.title %>
+        <% end %></th>
+        <th><%= book.body %></th></tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
 </div>
 
 
-<% @books.each do |book| %>
-<div>
-  <p>投稿ユーザー画像：<%= image_tag book.user.get_profile_image(100,100) %></p>
-  <%= link_to book_path(book.id) do %>
-    <p>Title：<%= book.title %></p>
-  <% end %>
-    <p>Opinion：<%= book.body %></p>
-</div>
-<% end %>

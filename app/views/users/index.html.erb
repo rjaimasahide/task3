@@ -1,17 +1,19 @@
-
-<%= render 'books/new', book: @book_new %>
-<%= link_to "ユーザー編集", edit_user_path(current_user.id) %>
-
-<div>
-  <%= current_user.name %>
-  <%= current_user.introduction %>
-  <%= image_tag current_user.get_profile_image(100,100) %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <%= render 'books/new', book: @book_new %>
+    </div>
+    <div class="col-lg-9">
+      <h1>Users</h1>
+      <table class="table table-hover">
+        <tr><th>image</th><th>name</th><th></th></tr>
+        <% @users.each do |user| %>
+          <tr><td><%= image_tag user.get_profile_image(100,100) %></td>
+          <th><%= user.name %></th>
+          <th><%= link_to "show", user_path(user.id) %></th></tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
 </div>
 
-<% @users.each do |user| %>
-<div>
-  <%= image_tag user.get_profile_image(100,100) %>
-  <%= user.name %>
-  <%= link_to "show", user_path(user.id) %>
-<% end %>
-</div>

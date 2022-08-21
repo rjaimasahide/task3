@@ -1,24 +1,55 @@
-<% if flash[:notice] %>
-  <p id="notice">
-    <%= flash[:notice] %>
-  </p>
-<% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <% if flash[:notice] %>
+        <p id="notice">
+        <%= flash[:notice] %>
+        </p>
+      <% end %>
 
-<%= render 'new', book: @book_new %>
-<%= link_to "ユーザー情報編集", edit_user_path(current_user.id) %>
+      <h2>User inf</h2>
+      <%= image_tag @book.user.get_profile_image(100,100) %>
+      <table class="table table-hover">
+        <tr><th>name</th><th><%= @book.user.name %></th></tr>
+        <tr><th>introduction</th><th><%= @book.user.introduction %></th></tr>
+      </table>
 
-<div>
-  <%= link_to book_path(@book.id) do %>
-    <p>Title：<%= @book.title %></p>
-  <% end %>
-  <p>Opinion: <%= @book.body %></p>
-  <p><%= image_tag @book.user.get_profile_image(100,100) %></p>
-  <%= link_to user_path(@book.user_id) do %>
-    <p><%= @book.user.name %></p>
-  <% end %>
+      <% if @book.user == current_user %>
+        <%= link_to "ユーザー情報編集", edit_user_path(current_user.id) %>
+      <% else %>
+        <%= link_to "ユーザー情報編集", user_path(current_user.id) %>
+      <% end %>
+
+      <h2>New book</h2>
+      <%= form_with model: @book_new do |f| %>
+        <h4>Title</h4>
+        <%= f.text_field :title %>
+        <h4>Opinion</h4>
+        <%= f.text_area :body %>
+        <%= f.submit '投稿' %>
+      <% end %>
+    </div>
+    <div class="col-lg-9">
+      <h1>Books detail</h1>
+      <table class="table table-hover">
+        <tr><td>
+        <%= image_tag @book.user.get_profile_image(100,100) %>
+        <%= link_to user_path(@book.user_id) do %>
+          <%= @book.user.name %>
+        <% end %>
+        </td>
+        <th>
+        <%= link_to book_path(@book.id) do %>
+          <%= @book.title %>
+        <% end %>
+        </th>
+        <th><%= @book.body %></th>
+        <% if @book.user == current_user %>
+          <td><%= link_to "edit", edit_book_path(@book), class: "btn btn-success" %></td>
+          <td><%= link_to "desyroy", book_path(@book), method: :delete, class: "btn btn-danger" %></td>
+        <% end %>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>
-
-<% if @book.user == current_user %>
-  <%= link_to "編集", edit_book_path(@book) %>
-  <%= link_to "削除", book_path(@book), method: :delete %>
-<% end %>
